@@ -79,7 +79,7 @@ public partial class MainWindow : Gtk.Window
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
-                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before like: `ffmpeg -i your.ogg your.wav`\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
+                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
                 return;
         }
         //MsgBox(file.stream.isLoop.ToString() ?? "NULL!!!");
