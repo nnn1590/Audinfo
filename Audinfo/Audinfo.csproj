@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{E754EDE9-DC72-4C25-AB40-168BBF0649B9}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>Audinfo</RootNamespace>
+    <AssemblyName>Audinfo</AssemblyName>
+    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="gtk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="gdk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="glib-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="glade-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="pango-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="atk-sharp, Version=2.4.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="Mono.Posix" />
+    <Reference Include="ATL">
+      <HintPath>..\packages\z440.atl.core.3.3.0\lib\net45\ATL.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Buffers">
+      <HintPath>..\packages\System.Buffers.4.4.0\lib\netstandard2.0\System.Buffers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics.Vectors">
+      <HintPath>..\packages\System.Numerics.Vectors.4.4.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.CompilerServices.Unsafe">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.4.5.2\lib\netstandard2.0\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory">
+      <HintPath>..\packages\System.Memory.4.5.2\lib\netstandard2.0\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="VGAudio">
+      <HintPath>..\packages\VGAudio.2.2.1\lib\net45\VGAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.BinaryData">
+      <HintPath>..\packages\Syroot.IO.BinaryData.4.0.4\lib\net45\Syroot.BinaryData.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Crc32.NET">
+      <HintPath>..\packages\Crc32.NET.1.2.0\lib\net20\Crc32.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Crc32C.NET">
+      <HintPath>..\packages\Crc32C.NET.1.0.5.0\lib\net20\Crc32C.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Crc32">
+      <HintPath>..\packages\Crc32.1.1.0\lib\net46\Crc32.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="gtk-gui\gui.stetic">
+      <LogicalName>gui.stetic</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="gtk-gui\generated.cs" />
+    <Compile Include="MainWindow.cs" />
+    <Compile Include="gtk-gui\MainWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IsabelleLib.cs" />
+    <Compile Include="CitraStructures.cs" />
+    <Compile Include="Low Level\Stream Audio\OpusNX.cs" />
+    <Compile Include="Low Level\Stream Audio\RiffWave.cs" />
+    <Compile Include="Low Level\Stream Audio\DspAdpcmMath.cs" />
+    <Compile Include="Low Level\Stream Audio\DspAdpcmEncode.cs" />
+    <Compile Include="Low Level\Stream Audio\SoundWave.cs" />
+    <Compile Include="Low Level\Stream Audio\SoundStream.cs" />
+    <Compile Include="Low Level\Stream Audio\DspAdpcmDecode.cs" />
+    <Compile Include="Low Level\Stream Audio\SoundNStreamStructures.cs" />
+    <Compile Include="Low Level\Stream Audio\StreamPrefetchFile.cs" />
+    <Compile Include="High Level\WaveArchivePair.cs" />
+    <Compile Include="High Level\SoundFile.cs" />
+    <Compile Include="High Level\UnknownFile.cs" />
+    <Compile Include="High Level\ISoundFile.cs" />
+    <Compile Include="High Level\WriteMode.cs" />
+    <Compile Include="High Level\Group\InfoExEntry.cs" />
+    <Compile Include="High Level\Group\Group.cs" />
+    <Compile Include="High Level\Bank\SoundBank.cs" />
+    <Compile Include="High Level\Bank\Key Region\IndexKeyRegion.cs" />
+    <Compile Include="High Level\Bank\Key Region\RangeKeyRegion.cs" />
+    <Compile Include="High Level\Bank\Key Region\IKeyRegion.cs" />
+    <Compile Include="High Level\Bank\Key Region\VelocityRegionRange.cs" />
+    <Compile Include="High Level\Bank\Key Region\DirectKeyRegion.cs" />
+    <Compile Include="High Level\Bank\Key Region\KeyRegionType.cs" />
+    <Compile Include="High Level\Bank\Velocity Region\VelocityRegion.cs" />
+    <Compile Include="High Level\Bank\Instrument\InstrumentType.cs" />
+    <Compile Include="High Level\Bank\Instrument\IndexInstrument.cs" />
+    <Compile Include="High Level\Bank\Instrument\KeyRegionRange.cs" />
+    <Compile Include="High Level\Bank\Instrument\RangeInstrument.cs" />
+    <Compile Include="High Level\Bank\Instrument\DirectInstrument.cs" />
+    <Compile Include="High Level\Bank\Instrument\IInstrument.cs" />
+    <Compile Include="High Level\Streaming\BinaryWave.cs" />
+    <Compile Include="High Level\Streaming\Vibration.cs" />
+    <Compile Include="High Level\Streaming\PrefetchFile.cs" />
+    <Compile Include="High Level\Streaming\Stream.cs" />
+    <Compile Include="High Level\Wave Sound Data\NoteInfo.cs" />
+    <Compile Include="High Level\Wave Sound Data\WaveSoundData.cs" />
+    <Compile Include="High Level\Wave Sound Data\NoteEvent.cs" />
+    <Compile Include="High Level\Wave Sound Data\WaveSoundDataItem.cs" />
+    <Compile Include="High Level\Sound Archive\SoundArchiveReader.cs" />
+    <Compile Include="High Level\Sound Archive\Sound3dInfo.cs" />
+    <Compile Include="High Level\Sound Archive\SDK_SPJ.cs" />
+    <Compile Include="High Level\Sound Archive\SoundArchiveVersions.cs" />
+    <Compile Include="High Level\Sound Archive\SoundArchiveWriter.cs" />
+    <Compile Include="High Level\Sound Archive\WaveArchiveEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SoundArchive.cs" />
+    <Compile Include="High Level\Sound Archive\GroupEntry.cs" />
+    <Compile Include="High Level\Sound Archive\StreamTrackInfo.cs" />
+    <Compile Include="High Level\Sound Archive\StreamEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SequenceEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SoundSetEntry.cs" />
+    <Compile Include="High Level\Sound Archive\PlayerEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SoundInfo.cs" />
+    <Compile Include="High Level\Sound Archive\SDK_Files.cs" />
+    <Compile Include="High Level\Sound Archive\WaveSoundDataEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SDK_BNK.cs" />
+    <Compile Include="High Level\Sound Archive\BankEntry.cs" />
+    <Compile Include="High Level\Sound Archive\SDK_SST.cs" />
+    <Compile Include="High Level\Sequence\SequenceLabel.cs" />
+    <Compile Include="High Level\Sequence\SoundSequence.cs" />
+    <Compile Include="High Level\Sead\SeadArchive.cs" />
+    <Compile Include="High Level\Sead\SeadFileEntry.cs" />
+    <Compile Include="High Level\Wave Archive\Wave.cs" />
+    <Compile Include="High Level\Wave Archive\SoundWaveArchive.cs" />
+    <Compile Include="CommonStructures.cs" />
+    <Compile Include="Converters\FileWriter.cs" />
+    <Compile Include="Converters\ReferenceStructures.cs" />
+    <Compile Include="Converters\FileReader.cs" />
+    <Compile Include="Converters\Sound Archive\Pitch.cs" />
+    <Compile Include="Converters\Sequence\SeqDataReader.cs" />
+    <Compile Include="SoundArchive.cs" />
+    <Compile Include="PatriciaTree.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SequenceDataLib\SequenceDataLib.csproj">
+      <Project>{B5BEB626-C485-4F1B-BD57-EFA7A18D4BB5}</Project>
+      <Name>SequenceDataLib</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
