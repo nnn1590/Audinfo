@@ -79,7 +79,7 @@ public partial class MainWindow : Gtk.Window
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
-                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before like: `ffmpeg -i your.ogg your.wav`\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error",MessageType.Error,ButtonsType.Ok);
+                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before like: `ffmpeg -i your.ogg your.wav`\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
                 return;
         }
         //MsgBox(file.stream.isLoop.ToString() ?? "NULL!!!");
@@ -166,9 +166,10 @@ public partial class MainWindow : Gtk.Window
     {
         int x, y;
         this.GetSize(out x, out y);
-        this.WidthRequest = x; 
+        this.WidthRequest = x;
         this.HeightRequest = y;
         this.Resizable = true;
+        this.Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + " (Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version + ")";
 
         // Because the "View" button is actually "Convert to BWAV"...
         button_view.Label = button_convert_to_bwav.Label;
@@ -180,9 +181,10 @@ public partial class MainWindow : Gtk.Window
         if (checkbutton_output_copy_input_name.Active)
         {
             int lastDotLocate = entry_input_file_path.Text.LastIndexOf('.');
-            if (lastDotLocate > 0) {
+            if (lastDotLocate > 0)
+            {
                 // Bad result if path is like "/i.have.dot/i_have_no_dot" or "/home/owner/My.Dump/music_001" ...
-                entry_output_file_path.Text = entry_input_file_path.Text.Substring(0,lastDotLocate) + ".{,b}wav";
+                entry_output_file_path.Text = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".{,b}wav";
             }
             else
             {
