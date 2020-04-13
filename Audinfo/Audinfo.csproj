@@ -81,6 +81,13 @@
     <Reference Include="Crc32">
       <HintPath>..\packages\Crc32.1.1.0\lib\net46\Crc32.dll</HintPath>
     </Reference>
+    <Reference Include="CSCore">
+      <HintPath>..\packages\CSCore.1.2.1.2\lib\net35-client\CSCore.dll</HintPath>
+    </Reference>
+    <Reference Include="NAudio">
+      <HintPath>..\packages\NAudio.1.10.0\lib\net35\NAudio.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="gtk-gui\gui.stetic">

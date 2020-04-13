@@ -4,9 +4,9 @@
     <images-root-path>..</images-root-path>
   </configuration>
   <import>
-    <widget-library name="../bin/Debug/Audinfo.exe" internal="true" />
+    <widget-library name="../bin/Release/Audinfo.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="652 282">
+  <widget class="Gtk.Window" id="MainWindow" design-size="658 282">
     <action-group name="Default">
       <action id="FilesAction">
         <property name="Type">Action</property>
@@ -27,14 +27,15 @@
     <property name="WindowPosition">CenterOnParent</property>
     <property name="Resizable">False</property>
     <signal name="DeleteEvent" handler="OnDeleteEvent" />
+    <signal name="MapEvent" handler="OnMapEvent" />
     <child>
-      <widget class="Gtk.VBox" id="vbox3">
+      <widget class="Gtk.VBox" id="vbox_main">
         <property name="MemberName" />
         <property name="Spacing">6</property>
         <child>
-          <widget class="Gtk.MenuBar" id="menubar2">
+          <widget class="Gtk.MenuBar" id="menubar_main">
             <property name="MemberName" />
-            <node name="menubar2" type="Menubar">
+            <node name="menubar_main" type="Menubar">
               <node type="Menu" action="FilesAction">
                 <node type="Menuitem" action="quitAction" />
               </node>
@@ -48,15 +49,15 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HBox" id="hbox1">
+          <widget class="Gtk.HBox" id="hbox_input_settings">
             <property name="MemberName" />
             <property name="Spacing">6</property>
             <property name="BorderWidth">6</property>
             <child>
-              <widget class="Gtk.Label" id="label_file_path">
+              <widget class="Gtk.Label" id="label_input_file_path">
                 <property name="MemberName" />
                 <property name="Xalign">1</property>
-                <property name="LabelProp" translatable="yes">File path:</property>
+                <property name="LabelProp" translatable="yes">Input file path:</property>
               </widget>
               <packing>
                 <property name="Position">0</property>
@@ -66,12 +67,12 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Entry" id="entry_file_path">
+              <widget class="Gtk.Entry" id="entry_input_file_path">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Text"></property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
+                <signal name="Changed" handler="OnEntryInputFilePathChanged" />
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -103,7 +104,7 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.Table" id="table1">
+          <widget class="Gtk.Table" id="table_loaded_info">
             <property name="MemberName" />
             <property name="NRows">2</property>
             <property name="NColumns">2</property>
@@ -114,7 +115,7 @@
               <widget class="Gtk.Entry" id="entry_loaded_file_format">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Text" translatable="yes">虚無</property>
+                <property name="Text" translatable="yes">Nothing yet</property>
                 <property name="IsEditable">False</property>
                 <property name="HasFrame">False</property>
                 <property name="InvisibleChar">●</property>
@@ -139,7 +140,7 @@
               <widget class="Gtk.Entry" id="entry_loaded_file_path">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Text" translatable="yes">虚無</property>
+                <property name="Text" translatable="yes">Nothing yet</property>
                 <property name="IsEditable">False</property>
                 <property name="HasFrame">False</property>
                 <property name="InvisibleChar">●</property>
@@ -204,12 +205,71 @@
           </packing>
         </child>
         <child>
-          <widget class="Gtk.HBox" id="hbox2">
+          <widget class="Gtk.HBox" id="hbox_output_settings">
             <property name="MemberName" />
+            <property name="Spacing">6</property>
+            <child>
+              <widget class="Gtk.Label" id="label_output_file_path">
+                <property name="MemberName" />
+                <property name="Xalign">1</property>
+                <property name="LabelProp" translatable="yes">Output file path:</property>
+              </widget>
+              <packing>
+                <property name="Position">0</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Entry" id="entry_output_file_path">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="IsEditable">True</property>
+                <property name="InvisibleChar">●</property>
+                <signal name="Changed" handler="OnEntryOutputFilePathChanged" />
+              </widget>
+              <packing>
+                <property name="Position">1</property>
+                <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.CheckButton" id="checkbutton_output_copy_input_name">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Label" translatable="yes">Copy input path
+with change file extension</property>
+                <property name="Active">True</property>
+                <property name="DrawIndicator">True</property>
+                <property name="HasLabel">True</property>
+                <property name="UseUnderline">True</property>
+                <signal name="Toggled" handler="OnCheckbuttonOutputCopyInputNameToggled" />
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">False</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
+              </packing>
+            </child>
+          </widget>
+          <packing>
+            <property name="Position">3</property>
+            <property name="AutoSize">True</property>
+            <property name="Expand">False</property>
+            <property name="Fill">False</property>
+          </packing>
+        </child>
+        <child>
+          <widget class="Gtk.HBox" id="hbox_convert_buttons">
+            <property name="MemberName" />
+            <property name="Visible">False</property>
             <property name="Spacing">6</property>
             <child>
               <widget class="Gtk.Button" id="button_convert_to_wav">
                 <property name="MemberName" />
+                <property name="Visible">False</property>
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-apply Menu</property>
@@ -229,6 +289,7 @@
                 <property name="Icon">stock:gtk-apply Menu</property>
                 <property name="Label" translatable="yes">Convert to BWAV</property>
                 <property name="UseUnderline">True</property>
+                <signal name="Clicked" handler="OnButtonConvertToBwavClicked" />
               </widget>
               <packing>
                 <property name="Position">1</property>
@@ -240,14 +301,11 @@
             </child>
           </widget>
           <packing>
-            <property name="Position">3</property>
+            <property name="Position">4</property>
             <property name="AutoSize">True</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>
-        </child>
-        <child>
-          <placeholder />
         </child>
       </widget>
     </child>
