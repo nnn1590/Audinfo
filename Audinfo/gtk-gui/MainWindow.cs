@@ -21,7 +21,17 @@ public partial class MainWindow
 
 	private global::Gtk.Button button_view;
 
-	private global::Gtk.Table table_loaded_info;
+	private global::Gtk.HBox hbox_output_settings;
+
+	private global::Gtk.Label label_output_file_path;
+
+	private global::Gtk.Entry entry_output_file_path;
+
+	private global::Gtk.CheckButton checkbutton_output_copy_input_name;
+
+	private global::Gtk.Table table_info;
+
+	private global::Gtk.CheckButton checkbutton_looping;
 
 	private global::Gtk.Entry entry_loaded_file_format;
 
@@ -31,19 +41,23 @@ public partial class MainWindow
 
 	private global::Gtk.Label label_loaded_file_path;
 
-	private global::Gtk.HBox hbox_output_settings;
+	private global::Gtk.Label label_loop_end;
 
-	private global::Gtk.Label label_output_file_path;
+	private global::Gtk.Label label_loop_start;
 
-	private global::Gtk.Entry entry_output_file_path;
+	private global::Gtk.Label label_looping;
 
-	private global::Gtk.CheckButton checkbutton_output_copy_input_name;
+	private global::Gtk.SpinButton spinbutton_loop_end;
+
+	private global::Gtk.SpinButton spinbutton_loop_start;
 
 	private global::Gtk.HBox hbox_convert_buttons;
 
 	private global::Gtk.Button button_convert_to_wav;
 
 	private global::Gtk.Button button_convert_to_bwav;
+
+	private global::Gtk.Label label_smile;
 
 	protected virtual void Build()
 	{
@@ -69,8 +83,8 @@ public partial class MainWindow
 		this.vbox_main.Name = "vbox_main";
 		this.vbox_main.Spacing = 6;
 		// Container child vbox_main.Gtk.Box+BoxChild
-		this.UIManager.AddUiFromString("<ui><menubar name=\'menubar_main\'><menu name=\'FilesAction\' action=\'FilesAction\'><m" +
-				"enuitem name=\'quitAction\' action=\'quitAction\'/></menu></menubar></ui>");
+		this.UIManager.AddUiFromString("<ui><menubar name=\'menubar_main\'><menu name=\'FilesAction\' action=\'FilesAction\'>" +
+				"<menuitem name=\'quitAction\' action=\'quitAction\'/></menu></menubar></ui>");
 		this.menubar_main = ((global::Gtk.MenuBar)(this.UIManager.GetWidget("/menubar_main")));
 		this.menubar_main.Name = "menubar_main";
 		this.vbox_main.Add(this.menubar_main);
@@ -97,6 +111,7 @@ public partial class MainWindow
 		this.entry_input_file_path = new global::Gtk.Entry();
 		this.entry_input_file_path.CanFocus = true;
 		this.entry_input_file_path.Name = "entry_input_file_path";
+		this.entry_input_file_path.Text = global::Mono.Unix.Catalog.GetString("");
 		this.entry_input_file_path.IsEditable = true;
 		this.entry_input_file_path.InvisibleChar = '●';
 		this.hbox_input_settings.Add(this.entry_input_file_path);
@@ -121,66 +136,6 @@ public partial class MainWindow
 		w7.Expand = false;
 		w7.Fill = false;
 		// Container child vbox_main.Gtk.Box+BoxChild
-		this.table_loaded_info = new global::Gtk.Table(((uint)(2)), ((uint)(2)), false);
-		this.table_loaded_info.Name = "table_loaded_info";
-		this.table_loaded_info.RowSpacing = ((uint)(6));
-		this.table_loaded_info.ColumnSpacing = ((uint)(6));
-		this.table_loaded_info.BorderWidth = ((uint)(6));
-		// Container child table_loaded_info.Gtk.Table+TableChild
-		this.entry_loaded_file_format = new global::Gtk.Entry();
-		this.entry_loaded_file_format.CanFocus = true;
-		this.entry_loaded_file_format.Name = "entry_loaded_file_format";
-		this.entry_loaded_file_format.Text = global::Mono.Unix.Catalog.GetString("Nothing yet");
-		this.entry_loaded_file_format.IsEditable = false;
-		this.entry_loaded_file_format.HasFrame = false;
-		this.entry_loaded_file_format.InvisibleChar = '●';
-		this.table_loaded_info.Add(this.entry_loaded_file_format);
-		global::Gtk.Table.TableChild w8 = ((global::Gtk.Table.TableChild)(this.table_loaded_info[this.entry_loaded_file_format]));
-		w8.TopAttach = ((uint)(1));
-		w8.BottomAttach = ((uint)(2));
-		w8.LeftAttach = ((uint)(1));
-		w8.RightAttach = ((uint)(2));
-		w8.XOptions = ((global::Gtk.AttachOptions)(4));
-		w8.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child table_loaded_info.Gtk.Table+TableChild
-		this.entry_loaded_file_path = new global::Gtk.Entry();
-		this.entry_loaded_file_path.CanFocus = true;
-		this.entry_loaded_file_path.Name = "entry_loaded_file_path";
-		this.entry_loaded_file_path.Text = global::Mono.Unix.Catalog.GetString("Nothing yet");
-		this.entry_loaded_file_path.IsEditable = false;
-		this.entry_loaded_file_path.HasFrame = false;
-		this.entry_loaded_file_path.InvisibleChar = '●';
-		this.table_loaded_info.Add(this.entry_loaded_file_path);
-		global::Gtk.Table.TableChild w9 = ((global::Gtk.Table.TableChild)(this.table_loaded_info[this.entry_loaded_file_path]));
-		w9.LeftAttach = ((uint)(1));
-		w9.RightAttach = ((uint)(2));
-		w9.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child table_loaded_info.Gtk.Table+TableChild
-		this.label_loaded_file_format = new global::Gtk.Label();
-		this.label_loaded_file_format.Name = "label_loaded_file_format";
-		this.label_loaded_file_format.Xalign = 1F;
-		this.label_loaded_file_format.LabelProp = global::Mono.Unix.Catalog.GetString("Loaded file format:");
-		this.table_loaded_info.Add(this.label_loaded_file_format);
-		global::Gtk.Table.TableChild w10 = ((global::Gtk.Table.TableChild)(this.table_loaded_info[this.label_loaded_file_format]));
-		w10.TopAttach = ((uint)(1));
-		w10.BottomAttach = ((uint)(2));
-		w10.XOptions = ((global::Gtk.AttachOptions)(4));
-		w10.YOptions = ((global::Gtk.AttachOptions)(4));
-		// Container child table_loaded_info.Gtk.Table+TableChild
-		this.label_loaded_file_path = new global::Gtk.Label();
-		this.label_loaded_file_path.Name = "label_loaded_file_path";
-		this.label_loaded_file_path.Xalign = 1F;
-		this.label_loaded_file_path.LabelProp = global::Mono.Unix.Catalog.GetString("Loaded file path:");
-		this.table_loaded_info.Add(this.label_loaded_file_path);
-		global::Gtk.Table.TableChild w11 = ((global::Gtk.Table.TableChild)(this.table_loaded_info[this.label_loaded_file_path]));
-		w11.XOptions = ((global::Gtk.AttachOptions)(4));
-		w11.YOptions = ((global::Gtk.AttachOptions)(4));
-		this.vbox_main.Add(this.table_loaded_info);
-		global::Gtk.Box.BoxChild w12 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.table_loaded_info]));
-		w12.Position = 2;
-		w12.Expand = false;
-		w12.Fill = false;
-		// Container child vbox_main.Gtk.Box+BoxChild
 		this.hbox_output_settings = new global::Gtk.HBox();
 		this.hbox_output_settings.Name = "hbox_output_settings";
 		this.hbox_output_settings.Spacing = 6;
@@ -190,37 +145,180 @@ public partial class MainWindow
 		this.label_output_file_path.Xalign = 1F;
 		this.label_output_file_path.LabelProp = global::Mono.Unix.Catalog.GetString("Output file path:");
 		this.hbox_output_settings.Add(this.label_output_file_path);
-		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.label_output_file_path]));
-		w13.Position = 0;
-		w13.Expand = false;
-		w13.Fill = false;
+		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.label_output_file_path]));
+		w8.Position = 0;
+		w8.Expand = false;
+		w8.Fill = false;
 		// Container child hbox_output_settings.Gtk.Box+BoxChild
 		this.entry_output_file_path = new global::Gtk.Entry();
 		this.entry_output_file_path.CanFocus = true;
 		this.entry_output_file_path.Name = "entry_output_file_path";
+		this.entry_output_file_path.Text = global::Mono.Unix.Catalog.GetString("");
 		this.entry_output_file_path.IsEditable = true;
 		this.entry_output_file_path.InvisibleChar = '●';
 		this.hbox_output_settings.Add(this.entry_output_file_path);
-		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.entry_output_file_path]));
-		w14.Position = 1;
+		global::Gtk.Box.BoxChild w9 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.entry_output_file_path]));
+		w9.Position = 1;
 		// Container child hbox_output_settings.Gtk.Box+BoxChild
 		this.checkbutton_output_copy_input_name = new global::Gtk.CheckButton();
 		this.checkbutton_output_copy_input_name.CanFocus = true;
 		this.checkbutton_output_copy_input_name.Name = "checkbutton_output_copy_input_name";
 		this.checkbutton_output_copy_input_name.Label = global::Mono.Unix.Catalog.GetString("Copy input path\nwith change file extension");
-		this.checkbutton_output_copy_input_name.Active = true;
 		this.checkbutton_output_copy_input_name.DrawIndicator = true;
 		this.checkbutton_output_copy_input_name.UseUnderline = true;
 		this.hbox_output_settings.Add(this.checkbutton_output_copy_input_name);
-		global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.checkbutton_output_copy_input_name]));
-		w15.Position = 2;
-		w15.Expand = false;
-		w15.Fill = false;
+		global::Gtk.Box.BoxChild w10 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.checkbutton_output_copy_input_name]));
+		w10.Position = 2;
+		w10.Expand = false;
+		w10.Fill = false;
 		this.vbox_main.Add(this.hbox_output_settings);
-		global::Gtk.Box.BoxChild w16 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.hbox_output_settings]));
-		w16.Position = 3;
-		w16.Expand = false;
-		w16.Fill = false;
+		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.hbox_output_settings]));
+		w11.Position = 2;
+		w11.Expand = false;
+		w11.Fill = false;
+		// Container child vbox_main.Gtk.Box+BoxChild
+		this.table_info = new global::Gtk.Table(((uint)(5)), ((uint)(2)), false);
+		this.table_info.Name = "table_info";
+		this.table_info.RowSpacing = ((uint)(6));
+		this.table_info.ColumnSpacing = ((uint)(6));
+		this.table_info.BorderWidth = ((uint)(6));
+		// Container child table_info.Gtk.Table+TableChild
+		this.checkbutton_looping = new global::Gtk.CheckButton();
+		this.checkbutton_looping.Sensitive = false;
+		this.checkbutton_looping.CanFocus = true;
+		this.checkbutton_looping.Name = "checkbutton_looping";
+		this.checkbutton_looping.Label = global::Mono.Unix.Catalog.GetString("Enable / Disable");
+		this.checkbutton_looping.Active = true;
+		this.checkbutton_looping.Inconsistent = true;
+		this.checkbutton_looping.DrawIndicator = true;
+		this.checkbutton_looping.UseUnderline = true;
+		this.table_info.Add(this.checkbutton_looping);
+		global::Gtk.Table.TableChild w12 = ((global::Gtk.Table.TableChild)(this.table_info[this.checkbutton_looping]));
+		w12.TopAttach = ((uint)(2));
+		w12.BottomAttach = ((uint)(3));
+		w12.LeftAttach = ((uint)(1));
+		w12.RightAttach = ((uint)(2));
+		w12.XOptions = ((global::Gtk.AttachOptions)(4));
+		w12.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.entry_loaded_file_format = new global::Gtk.Entry();
+		this.entry_loaded_file_format.CanFocus = true;
+		this.entry_loaded_file_format.Name = "entry_loaded_file_format";
+		this.entry_loaded_file_format.Text = global::Mono.Unix.Catalog.GetString("Nothing yet");
+		this.entry_loaded_file_format.IsEditable = false;
+		this.entry_loaded_file_format.HasFrame = false;
+		this.entry_loaded_file_format.InvisibleChar = '●';
+		this.table_info.Add(this.entry_loaded_file_format);
+		global::Gtk.Table.TableChild w13 = ((global::Gtk.Table.TableChild)(this.table_info[this.entry_loaded_file_format]));
+		w13.TopAttach = ((uint)(1));
+		w13.BottomAttach = ((uint)(2));
+		w13.LeftAttach = ((uint)(1));
+		w13.RightAttach = ((uint)(2));
+		w13.XOptions = ((global::Gtk.AttachOptions)(4));
+		w13.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.entry_loaded_file_path = new global::Gtk.Entry();
+		this.entry_loaded_file_path.CanFocus = true;
+		this.entry_loaded_file_path.Name = "entry_loaded_file_path";
+		this.entry_loaded_file_path.Text = global::Mono.Unix.Catalog.GetString("Nothing yet");
+		this.entry_loaded_file_path.IsEditable = false;
+		this.entry_loaded_file_path.HasFrame = false;
+		this.entry_loaded_file_path.InvisibleChar = '●';
+		this.table_info.Add(this.entry_loaded_file_path);
+		global::Gtk.Table.TableChild w14 = ((global::Gtk.Table.TableChild)(this.table_info[this.entry_loaded_file_path]));
+		w14.LeftAttach = ((uint)(1));
+		w14.RightAttach = ((uint)(2));
+		w14.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.label_loaded_file_format = new global::Gtk.Label();
+		this.label_loaded_file_format.Name = "label_loaded_file_format";
+		this.label_loaded_file_format.Xalign = 1F;
+		this.label_loaded_file_format.LabelProp = global::Mono.Unix.Catalog.GetString("Loaded file format:");
+		this.table_info.Add(this.label_loaded_file_format);
+		global::Gtk.Table.TableChild w15 = ((global::Gtk.Table.TableChild)(this.table_info[this.label_loaded_file_format]));
+		w15.TopAttach = ((uint)(1));
+		w15.BottomAttach = ((uint)(2));
+		w15.XOptions = ((global::Gtk.AttachOptions)(4));
+		w15.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.label_loaded_file_path = new global::Gtk.Label();
+		this.label_loaded_file_path.Name = "label_loaded_file_path";
+		this.label_loaded_file_path.Xalign = 1F;
+		this.label_loaded_file_path.LabelProp = global::Mono.Unix.Catalog.GetString("Loaded file path:");
+		this.table_info.Add(this.label_loaded_file_path);
+		global::Gtk.Table.TableChild w16 = ((global::Gtk.Table.TableChild)(this.table_info[this.label_loaded_file_path]));
+		w16.XOptions = ((global::Gtk.AttachOptions)(4));
+		w16.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.label_loop_end = new global::Gtk.Label();
+		this.label_loop_end.Name = "label_loop_end";
+		this.label_loop_end.Xalign = 1F;
+		this.label_loop_end.LabelProp = global::Mono.Unix.Catalog.GetString("Loop end:");
+		this.table_info.Add(this.label_loop_end);
+		global::Gtk.Table.TableChild w17 = ((global::Gtk.Table.TableChild)(this.table_info[this.label_loop_end]));
+		w17.TopAttach = ((uint)(4));
+		w17.BottomAttach = ((uint)(5));
+		w17.XOptions = ((global::Gtk.AttachOptions)(4));
+		w17.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.label_loop_start = new global::Gtk.Label();
+		this.label_loop_start.Name = "label_loop_start";
+		this.label_loop_start.Xalign = 1F;
+		this.label_loop_start.LabelProp = global::Mono.Unix.Catalog.GetString("Loop start:");
+		this.table_info.Add(this.label_loop_start);
+		global::Gtk.Table.TableChild w18 = ((global::Gtk.Table.TableChild)(this.table_info[this.label_loop_start]));
+		w18.TopAttach = ((uint)(3));
+		w18.BottomAttach = ((uint)(4));
+		w18.XOptions = ((global::Gtk.AttachOptions)(4));
+		w18.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.label_looping = new global::Gtk.Label();
+		this.label_looping.Name = "label_looping";
+		this.label_looping.Xalign = 1F;
+		this.label_looping.LabelProp = global::Mono.Unix.Catalog.GetString("Looping:");
+		this.table_info.Add(this.label_looping);
+		global::Gtk.Table.TableChild w19 = ((global::Gtk.Table.TableChild)(this.table_info[this.label_looping]));
+		w19.TopAttach = ((uint)(2));
+		w19.BottomAttach = ((uint)(3));
+		w19.XOptions = ((global::Gtk.AttachOptions)(4));
+		w19.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.spinbutton_loop_end = new global::Gtk.SpinButton(0D, 100D, 1D);
+		this.spinbutton_loop_end.Sensitive = false;
+		this.spinbutton_loop_end.CanFocus = true;
+		this.spinbutton_loop_end.Name = "spinbutton_loop_end";
+		this.spinbutton_loop_end.Adjustment.PageIncrement = 10D;
+		this.spinbutton_loop_end.ClimbRate = 1D;
+		this.spinbutton_loop_end.Numeric = true;
+		this.table_info.Add(this.spinbutton_loop_end);
+		global::Gtk.Table.TableChild w20 = ((global::Gtk.Table.TableChild)(this.table_info[this.spinbutton_loop_end]));
+		w20.TopAttach = ((uint)(4));
+		w20.BottomAttach = ((uint)(5));
+		w20.LeftAttach = ((uint)(1));
+		w20.RightAttach = ((uint)(2));
+		w20.XOptions = ((global::Gtk.AttachOptions)(4));
+		w20.YOptions = ((global::Gtk.AttachOptions)(4));
+		// Container child table_info.Gtk.Table+TableChild
+		this.spinbutton_loop_start = new global::Gtk.SpinButton(0D, 100D, 1D);
+		this.spinbutton_loop_start.Sensitive = false;
+		this.spinbutton_loop_start.CanFocus = true;
+		this.spinbutton_loop_start.Name = "spinbutton_loop_start";
+		this.spinbutton_loop_start.Adjustment.PageIncrement = 10D;
+		this.spinbutton_loop_start.ClimbRate = 1D;
+		this.spinbutton_loop_start.Numeric = true;
+		this.table_info.Add(this.spinbutton_loop_start);
+		global::Gtk.Table.TableChild w21 = ((global::Gtk.Table.TableChild)(this.table_info[this.spinbutton_loop_start]));
+		w21.TopAttach = ((uint)(3));
+		w21.BottomAttach = ((uint)(4));
+		w21.LeftAttach = ((uint)(1));
+		w21.RightAttach = ((uint)(2));
+		w21.XOptions = ((global::Gtk.AttachOptions)(4));
+		w21.YOptions = ((global::Gtk.AttachOptions)(4));
+		this.vbox_main.Add(this.table_info);
+		global::Gtk.Box.BoxChild w22 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.table_info]));
+		w22.Position = 3;
+		w22.Expand = false;
+		w22.Fill = false;
 		// Container child vbox_main.Gtk.Box+BoxChild
 		this.hbox_convert_buttons = new global::Gtk.HBox();
 		this.hbox_convert_buttons.Name = "hbox_convert_buttons";
@@ -231,38 +329,45 @@ public partial class MainWindow
 		this.button_convert_to_wav.Name = "button_convert_to_wav";
 		this.button_convert_to_wav.UseUnderline = true;
 		this.button_convert_to_wav.Label = global::Mono.Unix.Catalog.GetString("Convert to WAV");
-		global::Gtk.Image w17 = new global::Gtk.Image();
-		w17.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-apply", global::Gtk.IconSize.Menu);
-		this.button_convert_to_wav.Image = w17;
+		global::Gtk.Image w23 = new global::Gtk.Image();
+		w23.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-apply", global::Gtk.IconSize.Menu);
+		this.button_convert_to_wav.Image = w23;
 		this.hbox_convert_buttons.Add(this.button_convert_to_wav);
-		global::Gtk.Box.BoxChild w18 = ((global::Gtk.Box.BoxChild)(this.hbox_convert_buttons[this.button_convert_to_wav]));
-		w18.Position = 0;
+		global::Gtk.Box.BoxChild w24 = ((global::Gtk.Box.BoxChild)(this.hbox_convert_buttons[this.button_convert_to_wav]));
+		w24.Position = 0;
 		// Container child hbox_convert_buttons.Gtk.Box+BoxChild
 		this.button_convert_to_bwav = new global::Gtk.Button();
 		this.button_convert_to_bwav.CanFocus = true;
 		this.button_convert_to_bwav.Name = "button_convert_to_bwav";
 		this.button_convert_to_bwav.UseUnderline = true;
 		this.button_convert_to_bwav.Label = global::Mono.Unix.Catalog.GetString("Convert to BWAV");
-		global::Gtk.Image w19 = new global::Gtk.Image();
-		w19.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-apply", global::Gtk.IconSize.Menu);
-		this.button_convert_to_bwav.Image = w19;
+		global::Gtk.Image w25 = new global::Gtk.Image();
+		w25.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-apply", global::Gtk.IconSize.Menu);
+		this.button_convert_to_bwav.Image = w25;
 		this.hbox_convert_buttons.Add(this.button_convert_to_bwav);
-		global::Gtk.Box.BoxChild w20 = ((global::Gtk.Box.BoxChild)(this.hbox_convert_buttons[this.button_convert_to_bwav]));
-		w20.Position = 1;
+		global::Gtk.Box.BoxChild w26 = ((global::Gtk.Box.BoxChild)(this.hbox_convert_buttons[this.button_convert_to_bwav]));
+		w26.Position = 1;
 		this.vbox_main.Add(this.hbox_convert_buttons);
-		global::Gtk.Box.BoxChild w21 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.hbox_convert_buttons]));
-		w21.Position = 4;
-		w21.Expand = false;
-		w21.Fill = false;
+		global::Gtk.Box.BoxChild w27 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.hbox_convert_buttons]));
+		w27.Position = 4;
+		w27.Expand = false;
+		w27.Fill = false;
+		// Container child vbox_main.Gtk.Box+BoxChild
+		this.label_smile = new global::Gtk.Label();
+		this.label_smile.Name = "label_smile";
+		this.label_smile.LabelProp = global::Mono.Unix.Catalog.GetString(":)");
+		this.vbox_main.Add(this.label_smile);
+		global::Gtk.Box.BoxChild w28 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.label_smile]));
+		w28.Position = 5;
 		this.Add(this.vbox_main);
 		if ((this.Child != null))
 		{
 			this.Child.ShowAll();
 		}
-		this.DefaultWidth = 658;
-		this.DefaultHeight = 282;
+		this.DefaultWidth = 692;
+		this.DefaultHeight = 470;
 		this.button_convert_to_wav.Hide();
-		this.hbox_convert_buttons.Hide();
+		this.label_smile.Hide();
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
 		this.MapEvent += new global::Gtk.MapEventHandler(this.OnMapEvent);
@@ -271,6 +376,7 @@ public partial class MainWindow
 		this.button_view.Clicked += new global::System.EventHandler(this.OnButtonViewActivated);
 		this.entry_output_file_path.Changed += new global::System.EventHandler(this.OnEntryOutputFilePathChanged);
 		this.checkbutton_output_copy_input_name.Toggled += new global::System.EventHandler(this.OnCheckbuttonOutputCopyInputNameToggled);
+		this.checkbutton_looping.Toggled += new global::System.EventHandler(this.OnCheckbuttonOutputCopyInputNameToggled);
 		this.button_convert_to_bwav.Clicked += new global::System.EventHandler(this.OnButtonConvertToBwavClicked);
 	}
 }

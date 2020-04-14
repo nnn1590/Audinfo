@@ -44,9 +44,13 @@ public partial class MainWindow : Gtk.Window
         return result;
     }
 
-    public FISP file;
+    //public FISP file;
+    //public string outputfilepath;
     public void ConvertFile(string filename)
     {
+        FISP file;
+        string outputfilepath;
+
         switch (filename.Substring(filename.Length - 4))
         {
             case ".wav":
@@ -54,7 +58,7 @@ public partial class MainWindow : Gtk.Window
                 RiffWave w = new RiffWave();
                 w.Load(File.ReadAllBytes(filename));
                 file = new FISP(w);
-                string outputfilepath = entry_output_file_path.Text;
+                outputfilepath = entry_output_file_path.Text;
                 if (checkbutton_output_copy_input_name.Active)
                 {
                     int lastDotLocate = entry_input_file_path.Text.LastIndexOf('.');
@@ -71,18 +75,85 @@ public partial class MainWindow : Gtk.Window
                 break;
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
-                MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
-                return;
+                //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
+                //return;
                 BinaryWave r = new BinaryWave();
+                RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filename));
                 file = new FISP(r);
+                outputfilepath = entry_output_file_path.Text;
+                if (checkbutton_output_copy_input_name.Active)
+                {
+                    int lastDotLocate = entry_input_file_path.Text.LastIndexOf('.');
+                    if (lastDotLocate > 0)
+                    {
+                        outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".wav";
+                    }
+                    else
+                    {
+                        outputfilepath = entry_input_file_path.Text + ".wav";
+                    }
+                }
+                //riffWave
+                //File.WriteAllBytes(outputfilepath, file.ToBytes());
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
                 MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
                 return;
         }
-        //MsgBox(file.stream.isLoop.ToString() ?? "NULL!!!");
+        //file.stream
+        /*MsgBox("file.stream.isLoop: \"" + (file.stream.isLoop.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.loopStart: \"" + (file.stream.loopStart.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.loopEnd: \"" + (file.stream.loopEnd.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.originalLoopStart: \"" + (file.stream.originalLoopStart.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.originalLoopEnd: \"" + (file.stream.originalLoopEnd.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.encoding: \"" + (file.stream.encoding.ToString() ?? "NULL!!!") + "\"\n"
+        //+ "file.stream.magic: \"" + (file.stream.magic.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.sampleRate: \"" + (file.stream.sampleRate.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.secretInfo: \"" + (file.stream.secretInfo.ToString() ?? "NULL!!!") + "\"\n");*/
+    }
+
+    bool IsReadable(string filepath)
+    {
+        if (Directory.Exists(filepath) == true)
+        {
+            MsgBox("\"" + filepath + "\" is directory", "Error", MessageType.Error, ButtonsType.Ok);
+            return false;
+        }
+        try
+        {
+            if (File.Exists(filepath) == false)
+            {
+                MsgBox("File not found or can't read: \"" + filepath + "\"\nCheck file path and permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+                return false;
+            }
+            using (FileStream fs = new FileStream(filepath, FileMode.Open))
+            {
+                if (!fs.CanRead)
+                {
+                    try
+                    {
+                        if (File.Exists(filepath) == false)
+                        {
+                            MsgBox("File not found: \"" + filepath + "\"", "Error", MessageType.Error, ButtonsType.Ok);
+                            return false;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+                    }
+                    return false;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+            return false;
+        }
+        return true;
     }
 
     protected void OnButtonViewActivated(object sender, EventArgs e)
@@ -98,44 +169,7 @@ public partial class MainWindow : Gtk.Window
 
         }
         filepath = stringBuilder.ToString();
-
-        if (Directory.Exists(filepath) == true)
-        {
-            MsgBox("\"" + filepath + "\" is directory", "Error", MessageType.Error, ButtonsType.Ok);
-            return;
-        }
-        try
-        {
-            if (File.Exists(filepath) == false)
-            {
-                MsgBox("File not found or can't read: \"" + filepath + "\"\nCheck file path and permissions.", "Error", MessageType.Error, ButtonsType.Ok);
-                return;
-            }
-            using (FileStream fs = new FileStream(filepath, FileMode.Open))
-            {
-                if (!fs.CanRead)
-                {
-                    try
-                    {
-                        if (File.Exists(filepath) == false)
-                        {
-                            MsgBox("File not found: \"" + filepath + "\"", "Error", MessageType.Error, ButtonsType.Ok);
-                            return;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
-                    }
-                    return;
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
-            return;
-        }
+        if (!IsReadable(filepath)) return;
         entry_loaded_file_path.Text = filepath;
         //Track theTrack = new Track(filepath);
 
@@ -159,21 +193,64 @@ public partial class MainWindow : Gtk.Window
         filter.Remove(filter.Length - 1, 1);*/
         //MsgBox("Filter(s): \"" + filter.ToString() + "\"", "Info", MessageType.Info, ButtonsType.Ok);
 
-        ConvertFile(filepath);
+        //ConvertFile(filepath);
+        FISP file;
+        string outputfilepath;
+
+        switch (filepath.Substring(filepath.Length - 4))
+        {
+            case ".wav":
+                entry_loaded_file_format.Text = "WAV";
+                RiffWave w = new RiffWave();
+                w.Load(File.ReadAllBytes(filepath));
+                file = new FISP(w);
+                break;
+            case "bwav":
+                entry_loaded_file_format.Text = "BWAV";
+                //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
+                //return;
+                BinaryWave r = new BinaryWave();
+                RiffWave riffWave = new RiffWave();
+                r.Load(File.ReadAllBytes(filepath));
+                file = new FISP(r);
+                break;
+            default:
+                entry_loaded_file_format.Text = "Unknown";
+                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
+                return;
+        }
+
+        checkbutton_looping.Inconsistent = false;
+        checkbutton_looping.Active = file.stream.isLoop;
+        spinbutton_loop_start.Value = file.stream.loopStart;
+        spinbutton_loop_end.Value = file.stream.loopEnd;
+        spinbutton_loop_start.Adjustment.Upper = spinbutton_loop_end.Adjustment.Upper = double.MaxValue;
+        checkbutton_looping.Sensitive = spinbutton_loop_start.Sensitive = spinbutton_loop_end.Sensitive = true;
+        //MsgBox(spinbutton_loop_start.Adjustment.Upper.ToString()+"\n" +spinbutton_loop_end.Adjustment.Upper.ToString());
+        MsgBox("file.stream.isLoop: \"" + (file.stream.isLoop.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.loopStart: \"" + (file.stream.loopStart.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.loopEnd: \"" + (file.stream.loopEnd.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.originalLoopStart: \"" + (file.stream.originalLoopStart.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.originalLoopEnd: \"" + (file.stream.originalLoopEnd.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.encoding: \"" + (file.stream.encoding.ToString() ?? "NULL!!!") + "\"\n"
+        //+ "file.stream.magic: \"" + (file.stream.magic.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.sampleRate: \"" + (file.stream.sampleRate.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.secretInfo: \"" + (file.stream.secretInfo.ToString() ?? "NULL!!!") + "\"\n");
     }
 
     protected void OnMapEvent(object o, MapEventArgs args)
     {
         int x, y;
-        this.GetSize(out x, out y);
-        this.WidthRequest = x;
-        this.HeightRequest = y;
-        this.Resizable = true;
-        this.Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + " (Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version + ")";
+        GetSize(out x, out y);
+        WidthRequest = x;
+        HeightRequest = y;
+        Resizable = true;
+        Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + " (Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version + ")";
+        label_smile.Visible = true;
 
-        // Because the "View" button is actually "Convert to BWAV"...
+        /*// Because the "View" button is actually "Convert to BWAV"...
         button_view.Label = button_convert_to_bwav.Label;
-        button_view.Image = button_convert_to_bwav.Image;
+        button_view.Image = button_convert_to_bwav.Image;*/
     }
 
     protected void OnEntryInputFilePathChanged(object sender, EventArgs e)
@@ -205,5 +282,19 @@ public partial class MainWindow : Gtk.Window
 
     protected void OnButtonConvertToBwavClicked(object sender, EventArgs e)
     {
+        var filepath = entry_loaded_file_path.Text;
+        System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder(filepath);
+        try
+        {
+            stringBuilder.Replace("~", Environment.GetEnvironmentVariable("HOME"), 0, 1);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        filepath = stringBuilder.ToString();
+        if (!IsReadable(filepath)) return;
+
+        ConvertFile(filepath);
     }
 }
