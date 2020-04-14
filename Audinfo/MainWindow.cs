@@ -114,18 +114,18 @@ public partial class MainWindow : Gtk.Window
         + "file.stream.secretInfo: \"" + (file.stream.secretInfo.ToString() ?? "NULL!!!") + "\"\n");*/
     }
 
-    bool IsReadable(string filepath)
+    bool IsReadable(string filepath, bool showDialog)
     {
         if (Directory.Exists(filepath) == true)
         {
-            MsgBox("\"" + filepath + "\" is directory", "Error", MessageType.Error, ButtonsType.Ok);
+            if (showDialog) MsgBox("\"" + filepath + "\" is directory", "Error", MessageType.Error, ButtonsType.Ok);
             return false;
         }
         try
         {
             if (File.Exists(filepath) == false)
             {
-                MsgBox("File not found or can't read: \"" + filepath + "\"\nCheck file path and permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+                if (showDialog) MsgBox("File not found or can't read: \"" + filepath + "\"\nCheck file path and permissions.", "Error", MessageType.Error, ButtonsType.Ok);
                 return false;
             }
             using (FileStream fs = new FileStream(filepath, FileMode.Open))
@@ -136,13 +136,13 @@ public partial class MainWindow : Gtk.Window
                     {
                         if (File.Exists(filepath) == false)
                         {
-                            MsgBox("File not found: \"" + filepath + "\"", "Error", MessageType.Error, ButtonsType.Ok);
+                            if (showDialog) MsgBox("File not found: \"" + filepath + "\"", "Error", MessageType.Error, ButtonsType.Ok);
                             return false;
                         }
                     }
                     catch (Exception ex)
                     {
-                        MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+                        if (showDialog) MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
                     }
                     return false;
                 }
@@ -150,7 +150,7 @@ public partial class MainWindow : Gtk.Window
         }
         catch (Exception ex)
         {
-            MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
+            if (showDialog) MsgBox("Can't read: \"" + filepath + "\"\nCheck file permissions.", "Error", MessageType.Error, ButtonsType.Ok);
             return false;
         }
         return true;
@@ -169,7 +169,7 @@ public partial class MainWindow : Gtk.Window
 
         }
         filepath = stringBuilder.ToString();
-        if (!IsReadable(filepath)) return;
+        if (!IsReadable(filepath,true)) return;
         entry_loaded_file_path.Text = filepath;
         //Track theTrack = new Track(filepath);
 
@@ -195,7 +195,6 @@ public partial class MainWindow : Gtk.Window
 
         //ConvertFile(filepath);
         FISP file;
-        string outputfilepath;
 
         switch (filepath.Substring(filepath.Length - 4))
         {
@@ -225,7 +224,7 @@ public partial class MainWindow : Gtk.Window
         spinbutton_loop_start.Value = file.stream.loopStart;
         spinbutton_loop_end.Value = file.stream.loopEnd;
         spinbutton_loop_start.Adjustment.Upper = spinbutton_loop_end.Adjustment.Upper = double.MaxValue;
-        checkbutton_looping.Sensitive = spinbutton_loop_start.Sensitive = spinbutton_loop_end.Sensitive = true;
+        checkbutton_looping.Sensitive = spinbutton_loop_start.Sensitive = spinbutton_loop_end.Sensitive = hbox_convert_buttons.Sensitive = true;
         //MsgBox(spinbutton_loop_start.Adjustment.Upper.ToString()+"\n" +spinbutton_loop_end.Adjustment.Upper.ToString());
         MsgBox("file.stream.isLoop: \"" + (file.stream.isLoop.ToString() ?? "NULL!!!") + "\"\n"
         + "file.stream.loopStart: \"" + (file.stream.loopStart.ToString() ?? "NULL!!!") + "\"\n"
@@ -293,8 +292,38 @@ public partial class MainWindow : Gtk.Window
 
         }
         filepath = stringBuilder.ToString();
-        if (!IsReadable(filepath)) return;
+        if (!IsReadable(filepath,true)) return;
 
         ConvertFile(filepath);
+    }
+
+    protected void OnButtonInputChooseClicked(object sender, EventArgs e)
+    {
+        FileChooserDialog fileChooserDialog;
+        fileChooserDialog = new FileChooserDialog("Choose input file", this, FileChooserAction.Open,("Cancel"),ResponseType.Cancel,("Open"),ResponseType.Accept,null);
+        if (File.Exists(entry_input_file_path.Text) || Directory.Exists(entry_input_file_path.Text)) fileChooserDialog.SetFilename(entry_input_file_path.Text);
+        fileChooserDialog.Show();
+        if (fileChooserDialog.Run() == -3) entry_input_file_path.Text = fileChooserDialog.Filename;
+        fileChooserDialog.Destroy();
+    }
+
+    protected void OnButtonOutputChooseClicked(object sender, EventArgs e)
+    {
+        FileChooserDialog fileChooserDialog;
+        fileChooserDialog = new FileChooserDialog("Choose output file", this, FileChooserAction.Save, ("Cancel"), ResponseType.Cancel, ("Save"), ResponseType.Accept,null);
+        try
+        {
+            if (File.Exists(entry_output_file_path.Text) || Directory.Exists(entry_output_file_path.Text)) fileChooserDialog.SetFilename(entry_output_file_path.Text); else if (Directory.Exists(System.IO.Path.GetDirectoryName(entry_output_file_path.Text))) fileChooserDialog.SetFilename(System.IO.Path.GetDirectoryName(entry_output_file_path.Text));
+        }
+        catch(Exception ex)
+        { 
+        }
+        fileChooserDialog.Show();
+        if (fileChooserDialog.Run() == -3)
+        {
+            entry_output_file_path.Text = fileChooserDialog.Filename;
+            checkbutton_output_copy_input_name.Active = false;
+        }
+        fileChooserDialog.Destroy();
     }
 }

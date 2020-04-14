@@ -6,7 +6,7 @@
   <import>
     <widget-library name="../bin/Debug/Audinfo.exe" internal="true" />
   </import>
-  <widget class="Gtk.Window" id="MainWindow" design-size="692 470">
+  <widget class="Gtk.Window" id="MainWindow" design-size="692 479">
     <action-group name="Default">
       <action id="FilesAction">
         <property name="Type">Action</property>
@@ -18,6 +18,7 @@
         <property name="Label" translatable="yes">_Quit</property>
         <property name="ShortLabel" translatable="yes">_Quit</property>
         <property name="StockId">gtk-quit</property>
+        <signal name="Activated" handler="OnQuitActionActivated" />
       </action>
     </action-group>
     <property name="MemberName" />
@@ -69,7 +70,6 @@
               <widget class="Gtk.Entry" id="entry_input_file_path">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Text" translatable="yes"></property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
                 <signal name="Changed" handler="OnEntryInputFilePathChanged" />
@@ -77,6 +77,22 @@
               <packing>
                 <property name="Position">1</property>
                 <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="button_input_choose">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-open Menu</property>
+                <property name="Label" translatable="yes">Choose</property>
+                <signal name="Clicked" handler="OnButtonInputChooseClicked" />
+              </widget>
+              <packing>
+                <property name="Position">2</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -89,7 +105,7 @@
                 <signal name="Clicked" handler="OnButtonViewActivated" />
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -98,7 +114,7 @@
           </widget>
           <packing>
             <property name="Position">1</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>
@@ -121,17 +137,35 @@
               </packing>
             </child>
             <child>
+              <placeholder />
+            </child>
+            <child>
               <widget class="Gtk.Entry" id="entry_output_file_path">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
-                <property name="Text" translatable="yes"></property>
                 <property name="IsEditable">True</property>
                 <property name="InvisibleChar">●</property>
                 <signal name="Changed" handler="OnEntryOutputFilePathChanged" />
               </widget>
               <packing>
-                <property name="Position">1</property>
+                <property name="Position">2</property>
                 <property name="AutoSize">True</property>
+              </packing>
+            </child>
+            <child>
+              <widget class="Gtk.Button" id="button_output_choose">
+                <property name="MemberName" />
+                <property name="CanFocus">True</property>
+                <property name="Type">TextAndIcon</property>
+                <property name="Icon">stock:gtk-open Menu</property>
+                <property name="Label" translatable="yes">Choose</property>
+                <signal name="Clicked" handler="OnButtonOutputChooseClicked" />
+              </widget>
+              <packing>
+                <property name="Position">3</property>
+                <property name="AutoSize">True</property>
+                <property name="Expand">False</property>
+                <property name="Fill">False</property>
               </packing>
             </child>
             <child>
@@ -146,10 +180,8 @@ with change file extension</property>
                 <signal name="Toggled" handler="OnCheckbuttonOutputCopyInputNameToggled" />
               </widget>
               <packing>
-                <property name="Position">2</property>
-                <property name="AutoSize">False</property>
-                <property name="Expand">False</property>
-                <property name="Fill">False</property>
+                <property name="Position">4</property>
+                <property name="AutoSize">True</property>
               </packing>
             </child>
           </widget>
@@ -407,6 +439,7 @@ with change file extension</property>
         <child>
           <widget class="Gtk.HBox" id="hbox_convert_buttons">
             <property name="MemberName" />
+            <property name="Sensitive">False</property>
             <property name="Spacing">6</property>
             <child>
               <widget class="Gtk.Button" id="button_convert_to_wav">
@@ -444,7 +477,7 @@ with change file extension</property>
           </widget>
           <packing>
             <property name="Position">4</property>
-            <property name="AutoSize">True</property>
+            <property name="AutoSize">False</property>
             <property name="Expand">False</property>
             <property name="Fill">False</property>
           </packing>
@@ -459,6 +492,9 @@ with change file extension</property>
             <property name="Position">5</property>
             <property name="AutoSize">False</property>
           </packing>
+        </child>
+        <child>
+          <placeholder />
         </child>
       </widget>
     </child>
