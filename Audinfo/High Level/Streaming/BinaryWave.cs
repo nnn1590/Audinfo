@@ -108,6 +108,10 @@ namespace CitraFileLoader {
             ushort numChannels = br.ReadUInt16();
             ChannelPans = new ChannelPan[numChannels];
 
+            //Get codic. Reference:vgmstream/src/meta/bwav.c .
+            br.Position = 0x10;
+            ushort codic = br.ReadUInt16();
+
             //Get info from first channel.
             br.Position = 0x12;
             ChannelPans[0] = (ChannelPan)br.ReadUInt16();
