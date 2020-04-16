@@ -23,7 +23,7 @@ public partial class MainWindow : Gtk.Window
 
     protected void OnQuitActionActivated(object sender, EventArgs e)
     {
-        OnDeleteEvent(sender, (DeleteEventArgs)e);
+        Application.Quit();
     }
 
     int MsgBox(string text, string title, MessageType msgtype, ButtonsType buttontype)
