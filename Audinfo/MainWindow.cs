@@ -46,10 +46,12 @@ public partial class MainWindow : Gtk.Window
 
     //public FISP file;
     //public string outputfilepath;
-    public void ConvertFile(string filename)
+    public void ConvertFile(string filename, string OutputFormat)
     {
         FISP file;
         string outputfilepath;
+        //RiffWave riffWave = RiffWaveFactory.CreateRiffWave(file);
+        //File.WriteAllBytes("/tmp/a.wav", riffWave.ToBytes());
 
         switch (filename.Substring(filename.Length - 4))
         {
@@ -64,11 +66,13 @@ public partial class MainWindow : Gtk.Window
                     int lastDotLocate = entry_input_file_path.Text.LastIndexOf('.');
                     if (lastDotLocate > 0)
                     {
-                        outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".bwav";
+                        if (OutputFormat == "BWAV") outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".bwav";
+                        if (OutputFormat == "WAV") outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".wav";
                     }
                     else
                     {
-                        outputfilepath = entry_input_file_path.Text + ".bwav";
+                        if (OutputFormat == "BWAV") outputfilepath = entry_input_file_path.Text + ".bwav";
+                        if (OutputFormat == "WAV") outputfilepath = entry_input_file_path.Text + ".wav";
                     }
                 }
                 //MsgBox("in?:" + filename +"\nout:"+outputfilepath);
@@ -76,7 +80,8 @@ public partial class MainWindow : Gtk.Window
                 file.stream.loopStart = (uint)spinbutton_loop_start.Value;
                 file.stream.loopEnd = (uint)spinbutton_loop_end.Value;
                 //File.WriteAllBytes(outputfilepath, BinaryWave.FromRiff(w).ToBytes());
-                File.WriteAllBytes(outputfilepath, BinaryWave.FromFISP(file).ToBytes());
+                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, BinaryWave.FromFISP(file).ToBytes());
+                if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(file).ToBytes());
                 break;
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
@@ -93,16 +98,19 @@ public partial class MainWindow : Gtk.Window
                     int lastDotLocate = entry_input_file_path.Text.LastIndexOf('.');
                     if (lastDotLocate > 0)
                     {
-                        outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".wav";
+                        if (OutputFormat == "BWAV") outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".bwav";
+                        if (OutputFormat == "WAV") outputfilepath = entry_input_file_path.Text.Substring(0, lastDotLocate) + ".wav";
                     }
                     else
                     {
-                        outputfilepath = entry_input_file_path.Text + ".wav";
+                        if (OutputFormat == "BWAV") outputfilepath = entry_input_file_path.Text + ".bwav";
+                        if (OutputFormat == "WAV") outputfilepath = entry_input_file_path.Text + ".wav";
                     }
                 }
                 //riffWave
                 file.stream.encoding = (byte)1;
-                File.WriteAllBytes(outputfilepath, file.ToBytes());
+                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, file.ToBytes());
+                if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(file).ToBytes());
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
@@ -241,7 +249,10 @@ public partial class MainWindow : Gtk.Window
         + "file.stream.encoding: \"" + (file.stream.encoding.ToString() ?? "NULL!!!") + "\"\n"
         //+ "file.stream.magic: \"" + (file.stream.magic.ToString() ?? "NULL!!!") + "\"\n"
         + "file.stream.sampleRate: \"" + (file.stream.sampleRate.ToString() ?? "NULL!!!") + "\"\n"
-        + "file.stream.secretInfo: \"" + (file.stream.secretInfo.ToString() ?? "NULL!!!") + "\"\n");
+        + "file.stream.secretInfo: \"" + (file.stream.secretInfo.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.vMajor: \"" + (file.stream.vMajor.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.vMinor: \"" + (file.stream.vMinor.ToString() ?? "NULL!!!") + "\"\n"
+        + "file.stream.vRevision: \"" + (file.stream.vRevision.ToString() ?? "NULL!!!") + "\"");
     }
 
     protected void OnMapEvent(object o, MapEventArgs args)
@@ -299,9 +310,27 @@ public partial class MainWindow : Gtk.Window
 
         }
         filepath = stringBuilder.ToString();
-        if (!IsReadable(filepath,true)) return;
+        if (!IsReadable(filepath, true)) return;
 
-        ConvertFile(filepath);
+        ConvertFile(filepath, "BWAV");
+    }
+
+    protected void OnButtonConvertToWavClicked(object sender, EventArgs e)
+    {
+        var filepath = entry_loaded_file_path.Text;
+        System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder(filepath);
+        try
+        {
+            stringBuilder.Replace("~", Environment.GetEnvironmentVariable("HOME"), 0, 1);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        filepath = stringBuilder.ToString();
+        if (!IsReadable(filepath, true)) return;
+
+        ConvertFile(filepath, "WAV");
     }
 
     protected void OnButtonInputChooseClicked(object sender, EventArgs e)

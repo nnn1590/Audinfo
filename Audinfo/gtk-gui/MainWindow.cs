@@ -173,7 +173,7 @@ public partial class MainWindow
 		this.entry_output_file_path.InvisibleChar = '●';
 		this.hbox_output_settings.Add(this.entry_output_file_path);
 		global::Gtk.Box.BoxChild w11 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.entry_output_file_path]));
-		w11.Position = 2;
+		w11.Position = 1;
 		// Container child hbox_output_settings.Gtk.Box+BoxChild
 		this.button_output_choose = new global::Gtk.Button();
 		this.button_output_choose.CanFocus = true;
@@ -184,7 +184,7 @@ public partial class MainWindow
 		this.button_output_choose.Image = w12;
 		this.hbox_output_settings.Add(this.button_output_choose);
 		global::Gtk.Box.BoxChild w13 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.button_output_choose]));
-		w13.Position = 3;
+		w13.Position = 2;
 		w13.Expand = false;
 		w13.Fill = false;
 		// Container child hbox_output_settings.Gtk.Box+BoxChild
@@ -196,7 +196,7 @@ public partial class MainWindow
 		this.checkbutton_output_copy_input_name.UseUnderline = true;
 		this.hbox_output_settings.Add(this.checkbutton_output_copy_input_name);
 		global::Gtk.Box.BoxChild w14 = ((global::Gtk.Box.BoxChild)(this.hbox_output_settings[this.checkbutton_output_copy_input_name]));
-		w14.Position = 4;
+		w14.Position = 3;
 		this.vbox_main.Add(this.hbox_output_settings);
 		global::Gtk.Box.BoxChild w15 = ((global::Gtk.Box.BoxChild)(this.vbox_main[this.hbox_output_settings]));
 		w15.Position = 2;
@@ -393,7 +393,6 @@ public partial class MainWindow
 		}
 		this.DefaultWidth = 692;
 		this.DefaultHeight = 479;
-		this.button_convert_to_wav.Hide();
 		this.label_smile.Hide();
 		this.Show();
 		this.DeleteEvent += new global::Gtk.DeleteEventHandler(this.OnDeleteEvent);
@@ -406,6 +405,7 @@ public partial class MainWindow
 		this.button_output_choose.Clicked += new global::System.EventHandler(this.OnButtonOutputChooseClicked);
 		this.checkbutton_output_copy_input_name.Toggled += new global::System.EventHandler(this.OnCheckbuttonOutputCopyInputNameToggled);
 		this.checkbutton_looping.Toggled += new global::System.EventHandler(this.OnCheckbuttonOutputCopyInputNameToggled);
+		this.button_convert_to_wav.Clicked += new global::System.EventHandler(this.OnButtonConvertToWavClicked);
 		this.button_convert_to_bwav.Clicked += new global::System.EventHandler(this.OnButtonConvertToBwavClicked);
 	}
 }
