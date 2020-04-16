@@ -137,9 +137,6 @@
               </packing>
             </child>
             <child>
-              <placeholder />
-            </child>
-            <child>
               <widget class="Gtk.Entry" id="entry_output_file_path">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
@@ -148,7 +145,7 @@
                 <signal name="Changed" handler="OnEntryOutputFilePathChanged" />
               </widget>
               <packing>
-                <property name="Position">2</property>
+                <property name="Position">1</property>
                 <property name="AutoSize">True</property>
               </packing>
             </child>
@@ -162,7 +159,7 @@
                 <signal name="Clicked" handler="OnButtonOutputChooseClicked" />
               </widget>
               <packing>
-                <property name="Position">3</property>
+                <property name="Position">2</property>
                 <property name="AutoSize">True</property>
                 <property name="Expand">False</property>
                 <property name="Fill">False</property>
@@ -174,15 +171,19 @@
                 <property name="CanFocus">True</property>
                 <property name="Label" translatable="yes">Copy input path
 with change file extension</property>
+                <property name="Active">True</property>
                 <property name="DrawIndicator">True</property>
                 <property name="HasLabel">True</property>
                 <property name="UseUnderline">True</property>
                 <signal name="Toggled" handler="OnCheckbuttonOutputCopyInputNameToggled" />
               </widget>
               <packing>
-                <property name="Position">4</property>
+                <property name="Position">3</property>
                 <property name="AutoSize">True</property>
               </packing>
+            </child>
+            <child>
+              <placeholder />
             </child>
           </widget>
           <packing>

@@ -71,14 +71,20 @@ public partial class MainWindow : Gtk.Window
                         outputfilepath = entry_input_file_path.Text + ".bwav";
                     }
                 }
+                //MsgBox("in?:" + filename +"\nout:"+outputfilepath);
+                file.stream.isLoop = checkbutton_looping.Active;
+                file.stream.loopStart = (uint)spinbutton_loop_start.Value;
+                file.stream.loopEnd = (uint)spinbutton_loop_end.Value;
+                //File.WriteAllBytes(outputfilepath, BinaryWave.FromRiff(w).ToBytes());
                 File.WriteAllBytes(outputfilepath, BinaryWave.FromFISP(file).ToBytes());
                 break;
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
                 //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
                 //return;
+
                 BinaryWave r = new BinaryWave();
-                RiffWave riffWave = new RiffWave();
+                //RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filename));
                 file = new FISP(r);
                 outputfilepath = entry_output_file_path.Text;
@@ -95,7 +101,8 @@ public partial class MainWindow : Gtk.Window
                     }
                 }
                 //riffWave
-                //File.WriteAllBytes(outputfilepath, file.ToBytes());
+                file.stream.encoding = (byte)1;
+                File.WriteAllBytes(outputfilepath, file.ToBytes());
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
@@ -209,7 +216,7 @@ public partial class MainWindow : Gtk.Window
                 //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
                 //return;
                 BinaryWave r = new BinaryWave();
-                RiffWave riffWave = new RiffWave();
+                //RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filepath));
                 file = new FISP(r);
                 break;
@@ -219,12 +226,12 @@ public partial class MainWindow : Gtk.Window
                 return;
         }
 
+        checkbutton_looping.Sensitive = spinbutton_loop_start.Sensitive = spinbutton_loop_end.Sensitive = hbox_convert_buttons.Sensitive = true;
         checkbutton_looping.Inconsistent = false;
+        spinbutton_loop_start.Adjustment.Upper = spinbutton_loop_end.Adjustment.Upper = double.MaxValue;
         checkbutton_looping.Active = file.stream.isLoop;
         spinbutton_loop_start.Value = file.stream.loopStart;
         spinbutton_loop_end.Value = file.stream.loopEnd;
-        spinbutton_loop_start.Adjustment.Upper = spinbutton_loop_end.Adjustment.Upper = double.MaxValue;
-        checkbutton_looping.Sensitive = spinbutton_loop_start.Sensitive = spinbutton_loop_end.Sensitive = hbox_convert_buttons.Sensitive = true;
         //MsgBox(spinbutton_loop_start.Adjustment.Upper.ToString()+"\n" +spinbutton_loop_end.Adjustment.Upper.ToString());
         MsgBox("file.stream.isLoop: \"" + (file.stream.isLoop.ToString() ?? "NULL!!!") + "\"\n"
         + "file.stream.loopStart: \"" + (file.stream.loopStart.ToString() ?? "NULL!!!") + "\"\n"
