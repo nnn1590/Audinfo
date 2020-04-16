@@ -96,13 +96,13 @@
               </packing>
             </child>
             <child>
-              <widget class="Gtk.Button" id="button_view">
+              <widget class="Gtk.Button" id="button_load">
                 <property name="MemberName" />
                 <property name="CanFocus">True</property>
                 <property name="Type">TextAndIcon</property>
                 <property name="Icon">stock:gtk-jump-to Menu</property>
-                <property name="Label" translatable="yes">View</property>
-                <signal name="Clicked" handler="OnButtonViewActivated" />
+                <property name="Label" translatable="yes">Load</property>
+                <signal name="Clicked" handler="OnButtonLoadClicked" />
               </widget>
               <packing>
                 <property name="Position">3</property>

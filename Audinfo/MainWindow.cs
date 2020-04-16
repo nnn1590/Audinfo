@@ -1,10 +1,6 @@
 ﻿using System;
 using System.IO;
 using Gtk;
-//using ATL;
-//using ATL.AudioData;
-//using NAudio.Wave;
-//using NAudio.Wave.SampleProviders;
 using CitraFileLoader;
 using IsabelleLib;
 
@@ -44,14 +40,10 @@ public partial class MainWindow : Gtk.Window
         return result;
     }
 
-    //public FISP file;
-    //public string outputfilepath;
     public void ConvertFile(string filename, string OutputFormat)
     {
         FISP file;
         string outputfilepath;
-        //RiffWave riffWave = RiffWaveFactory.CreateRiffWave(file);
-        //File.WriteAllBytes("/tmp/a.wav", riffWave.ToBytes());
 
         switch (filename.Substring(filename.Length - 4))
         {
@@ -85,11 +77,8 @@ public partial class MainWindow : Gtk.Window
                 break;
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
-                //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
-                //return;
 
                 BinaryWave r = new BinaryWave();
-                //RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filename));
                 file = new FISP(r);
                 outputfilepath = entry_output_file_path.Text;
@@ -171,7 +160,7 @@ public partial class MainWindow : Gtk.Window
         return true;
     }
 
-    protected void OnButtonViewActivated(object sender, EventArgs e)
+    protected void OnButtonLoadClicked(object sender, EventArgs e)
     {
         var filepath = entry_input_file_path.Text;
         System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder(filepath);
@@ -186,29 +175,6 @@ public partial class MainWindow : Gtk.Window
         filepath = stringBuilder.ToString();
         if (!IsReadable(filepath,true)) return;
         entry_loaded_file_path.Text = filepath;
-        //Track theTrack = new Track(filepath);
-
-        //MsgBox("Title: \"" + theTrack.Title + "\"\nDuration (ms): \"" + theTrack.DurationMs + "\"\nDuration: \"" + theTrack.Duration + "\"", "Info", MessageType.Info, ButtonsType.Ok);
-
-        //System.Text.StringBuilder filter = new System.Text.StringBuilder("");
-
-        //ATL.AudioData.AudioDataManager audioDataManager = new AudioDataManager(audioDataIO);
-        /*ATL.Playlist.PlaylistIOFactory.GetInstance();
-        foreach (Format f in ATL.Playlist.PlaylistIOFactory.GetInstance().getFormats())
-        {
-            if (f.Readable)
-            {
-                foreach (string extension in f)
-                {
-                    filter.Append(extension).Append(";");
-                }
-            }
-        }
-        // Removes the last separator
-        filter.Remove(filter.Length - 1, 1);*/
-        //MsgBox("Filter(s): \"" + filter.ToString() + "\"", "Info", MessageType.Info, ButtonsType.Ok);
-
-        //ConvertFile(filepath);
         FISP file;
 
         switch (filepath.Substring(filepath.Length - 4))
@@ -221,8 +187,6 @@ public partial class MainWindow : Gtk.Window
                 break;
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
-                //MsgBox("Unsupported type - Sorry, BWAV input support is too bad. Try using VGMStream.\nNOTE: But if you want to try it with this tool, change the source code ...", "Warning", MessageType.Warning, ButtonsType.Ok);
-                //return;
                 BinaryWave r = new BinaryWave();
                 //RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filepath));
@@ -264,10 +228,6 @@ public partial class MainWindow : Gtk.Window
         Resizable = true;
         Title = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name + " (Version " + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version + ")";
         label_smile.Visible = true;
-
-        /*// Because the "View" button is actually "Convert to BWAV"...
-        button_view.Label = button_convert_to_bwav.Label;
-        button_view.Image = button_convert_to_bwav.Image;*/
     }
 
     protected void OnEntryInputFilePathChanged(object sender, EventArgs e)

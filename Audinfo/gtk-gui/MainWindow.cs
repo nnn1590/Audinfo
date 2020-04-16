@@ -21,7 +21,7 @@ public partial class MainWindow
 
 	private global::Gtk.Button button_input_choose;
 
-	private global::Gtk.Button button_view;
+	private global::Gtk.Button button_load;
 
 	private global::Gtk.HBox hbox_output_settings;
 
@@ -134,15 +134,15 @@ public partial class MainWindow
 		w6.Expand = false;
 		w6.Fill = false;
 		// Container child hbox_input_settings.Gtk.Box+BoxChild
-		this.button_view = new global::Gtk.Button();
-		this.button_view.CanFocus = true;
-		this.button_view.Name = "button_view";
-		this.button_view.Label = global::Mono.Unix.Catalog.GetString("View");
+		this.button_load = new global::Gtk.Button();
+		this.button_load.CanFocus = true;
+		this.button_load.Name = "button_load";
+		this.button_load.Label = global::Mono.Unix.Catalog.GetString("Load");
 		global::Gtk.Image w7 = new global::Gtk.Image();
 		w7.Pixbuf = global::Stetic.IconLoader.LoadIcon(this, "gtk-jump-to", global::Gtk.IconSize.Menu);
-		this.button_view.Image = w7;
-		this.hbox_input_settings.Add(this.button_view);
-		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox_input_settings[this.button_view]));
+		this.button_load.Image = w7;
+		this.hbox_input_settings.Add(this.button_load);
+		global::Gtk.Box.BoxChild w8 = ((global::Gtk.Box.BoxChild)(this.hbox_input_settings[this.button_load]));
 		w8.Position = 3;
 		w8.Expand = false;
 		w8.Fill = false;
@@ -192,6 +192,7 @@ public partial class MainWindow
 		this.checkbutton_output_copy_input_name.CanFocus = true;
 		this.checkbutton_output_copy_input_name.Name = "checkbutton_output_copy_input_name";
 		this.checkbutton_output_copy_input_name.Label = global::Mono.Unix.Catalog.GetString("Copy input path\nwith change file extension");
+		this.checkbutton_output_copy_input_name.Active = true;
 		this.checkbutton_output_copy_input_name.DrawIndicator = true;
 		this.checkbutton_output_copy_input_name.UseUnderline = true;
 		this.hbox_output_settings.Add(this.checkbutton_output_copy_input_name);
@@ -400,7 +401,7 @@ public partial class MainWindow
 		this.quitAction.Activated += new global::System.EventHandler(this.OnQuitActionActivated);
 		this.entry_input_file_path.Changed += new global::System.EventHandler(this.OnEntryInputFilePathChanged);
 		this.button_input_choose.Clicked += new global::System.EventHandler(this.OnButtonInputChooseClicked);
-		this.button_view.Clicked += new global::System.EventHandler(this.OnButtonViewActivated);
+		this.button_load.Clicked += new global::System.EventHandler(this.OnButtonLoadClicked);
 		this.entry_output_file_path.Changed += new global::System.EventHandler(this.OnEntryOutputFilePathChanged);
 		this.button_output_choose.Clicked += new global::System.EventHandler(this.OnButtonOutputChooseClicked);
 		this.checkbutton_output_copy_input_name.Toggled += new global::System.EventHandler(this.OnCheckbuttonOutputCopyInputNameToggled);
