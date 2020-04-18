@@ -48,7 +48,6 @@ public partial class MainWindow : Gtk.Window
         switch (filename.Substring(filename.Length - 4))
         {
             case ".wav":
-                entry_loaded_file_format.Text = "WAV";
                 RiffWave w = new RiffWave();
                 w.Load(File.ReadAllBytes(filename));
                 file = new FISP(w);
@@ -76,8 +75,6 @@ public partial class MainWindow : Gtk.Window
                 if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(file).ToBytes());
                 break;
             case "bwav":
-                entry_loaded_file_format.Text = "BWAV";
-
                 BinaryWave r = new BinaryWave();
                 r.Load(File.ReadAllBytes(filename));
                 file = new FISP(r);
@@ -102,8 +99,7 @@ public partial class MainWindow : Gtk.Window
                 if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(file).ToBytes());
                 break;
             default:
-                entry_loaded_file_format.Text = "Unknown";
-                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
+                MsgBox("Unknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
                 return;
         }
         //file.stream
@@ -188,13 +184,15 @@ public partial class MainWindow : Gtk.Window
             case "bwav":
                 entry_loaded_file_format.Text = "BWAV";
                 BinaryWave r = new BinaryWave();
+                if (r.Codic == 0) entry_loaded_file_format.Text = "BWAV(PCM16)";
+                if (r.Codic == 1) entry_loaded_file_format.Text = "BWAV(DSPADPCM)";
                 //RiffWave riffWave = new RiffWave();
                 r.Load(File.ReadAllBytes(filepath));
                 file = new FISP(r);
                 break;
             default:
                 entry_loaded_file_format.Text = "Unknown";
-                MsgBox("Uknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
+                MsgBox("Unknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
                 return;
         }
 
