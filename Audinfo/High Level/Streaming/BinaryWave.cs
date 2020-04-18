@@ -50,6 +50,11 @@ namespace CitraFileLoader {
         public ChannelPan[] ChannelPans;
 
         /// <summary>
+        /// Codic.
+        /// </summary>
+        public ushort Codic;
+
+        /// <summary>
         /// Loop flag.
         /// </summary>
         public bool Loops;
@@ -110,7 +115,7 @@ namespace CitraFileLoader {
 
             //Get codic. Reference:vgmstream/src/meta/bwav.c .
             br.Position = 0x10;
-            ushort codic = br.ReadUInt16();
+            Codic = br.ReadUInt16();
 
             //Get info from first channel.
             br.Position = 0x12;
