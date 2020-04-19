@@ -95,7 +95,7 @@ public partial class MainWindow : Gtk.Window
                 }
                 //riffWave
                 //file.stream.encoding = (byte)1;
-                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, f.ToBytes());
+                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, r.ToBytes());
                 if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(r).ToBytes());
                 break;
             default:
