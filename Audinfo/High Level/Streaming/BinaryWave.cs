@@ -141,8 +141,12 @@ namespace CitraFileLoader {
             br.Position += 4;
 
             //Loop info.
-            Loops = br.ReadUInt32() > 0;
-            LoopEndSample = br.ReadUInt32();
+            br.Position = 0x4C; 
+            Loops = br.ReadInt32() > 0;
+            br.Position = 0x4C;
+            if (Loops) LoopEndSample = br.ReadUInt32();
+            else LoopEndSample = NumSamples;
+            br.Position = 0x50;
             LoopStartSample = br.ReadUInt32();
 
             //More DSP info.
@@ -250,15 +254,15 @@ namespace CitraFileLoader {
 
             //Write the data.
             for (int i = 0; i < DspAdpcmInfo.Length; i++) {
-
                 //Align.
                 while (bw.Position % 0x40 != 0) {
                     bw.Position++;
                 }
 
+                //Console.WriteLine("Writing " + Data.pcm16[i] + " to "+bw.Position);
                 //Write data.
-                bw.Write(Data.dspAdpcm[i]);
-
+                bw.Write(Data.pcm16[i]);
+                //i = 114514;
             }
 
             //Get hash.

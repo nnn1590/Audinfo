@@ -267,7 +267,7 @@ namespace IsabelleLib
             /// <summary>
             /// 2 - Preferred encoding.
             /// </summary>
-            public byte encoding = 2;
+            public byte encoding = EncodingTypes.PCM16;
 
             /// <summary>
             /// 3 - Major version.
@@ -515,7 +515,7 @@ namespace IsabelleLib
 
             //Stream info.
             stream.sampleRate = r.fmt.sampleRate;
-            stream.encoding = 2;
+            stream.encoding = EncodingTypes.PCM16;
             if (data.data.Count > 0) { stream.loopEnd = (uint)data.data[0].Length; }
             if (r.smpl != null) {
                 if (r.smpl.loops.Count > 0) {
@@ -586,7 +586,7 @@ namespace IsabelleLib
 
             //Stream info.
             stream.sampleRate = b.SampleRate;
-            stream.encoding = 2;
+            stream.encoding = EncodingTypes.PCM16;
             stream.isLoop = b.Loops && b.LoopEndSample != 0xFFFFFFFF;
             stream.loopEnd = b.LoopEndSample;
             stream.loopStart = b.LoopStartSample;

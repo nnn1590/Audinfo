@@ -995,6 +995,7 @@ namespace CitraFileLoader
 
                 for (int j = 0; j < f.stream.loopEnd; j++)
                 {
+                    //Console.WriteLine("i:" + i + "j:" + j);
                     l.Add(f.data.data[i][j]);
                 }
 
