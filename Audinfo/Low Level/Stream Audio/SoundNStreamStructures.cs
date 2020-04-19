@@ -412,7 +412,9 @@ namespace CitraFileLoader
         public object GetDataWAV(DspAdpcmInfo[] info, uint loopEnd) {
 
             //Get the data.
-            return EncoderFactory.DspApcmToPcm16(dspAdpcm, loopEnd, info);
+            //return EncoderFactory.DspApcmToPcm16(dspAdpcm, loopEnd, info);
+            return EncoderFactory.VirtualDspApcmToPcm16(dspAdpcm, loopEnd, info);
+            //return dspAdpcm;
 
         }
 
@@ -1467,7 +1469,53 @@ namespace CitraFileLoader
 
                 newData[i] = new Int16[numSamples];
                 DspAdpcmDecoder.Decode(dspApdcm[i], ref newData[i], ref context[i], numSamples);
+            }
 
+            return newData;
+
+        }
+
+        /// <summary>
+        /// Convert pcm16 (as dsp adpcm) to pcm16.
+        /// </summary>
+        /// <param name="dspApdcm">The dsp apdcm samples.</param>
+        /// <param name="numSamples">Number of samples.</param>
+        /// <param name="context">Dsp apdcm context.</param>
+        /// <returns></returns>
+        public static Int16[][] VirtualDspApcmToPcm16(byte[][] dspApdcm, UInt32 numSamples, DspAdpcmInfo[] context)
+        {
+
+            Int16[][] newData = new Int16[dspApdcm.Length][];
+
+            for (int i = 0; i < newData.Length; i++)
+            {
+
+                newData[i] = new Int16[numSamples];
+                newData[i] = Array.ConvertAll(dspApdcm[i], b => (short)b);
+                /*for (int ii = 0; ii < dspApdcm[i].Length;ii++)
+                {
+                    Console.WriteLine("野獣先輩[" + i + "]: " + dspApdcm[i][ii]);
+                    Console.WriteLine("田所浩二[" + i + "]: " + newData[i][ii]);
+                }
+
+                byte[] V3 = new byte[dspApdcm[0].Length + dspApdcm[1].Length];
+                for (int V3ii = 0; V3ii < dspApdcm[0].Length; V3ii++) {
+                    V3[V3ii] = dspApdcm[0][V3ii];
+                }
+                for (int V3iii = 0; V3iii < dspApdcm[1].Length; V3iii++)
+                {
+                    V3[V3iii+dspApdcm[0].Length] = dspApdcm[1][V3iii];
+                }
+                System.IO.File.WriteAllBytes("/tmp/test",V3);*/
+
+              
+                /*Console.WriteLine(""
+                + "newData: " + newData
+                + "newData[" + i + "]: " + newData[i]
+                + "dspApdcm: " + dspApdcm
+                + "dspApdcm[" + i + "]: " + dspApdcm[i]
+                    );*/
+                //DspAdpcmDecoder.VirtualDecode(dspApdcm[i], ref newData[i], ref context[i], numSamples);
             }
 
             return newData;

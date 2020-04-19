@@ -609,7 +609,7 @@ namespace IsabelleLib
 
             //Data.
             data.data = (b.Data.GetDataWAV(b.DspAdpcmInfo, b.LoopEndSample == 0xFFFFFFFF ? b.NumSamples : b.LoopEndSample) as short[][]).ToList();
-
+            //data.data = ((short)b.Data);
         }
 
         /// <summary>

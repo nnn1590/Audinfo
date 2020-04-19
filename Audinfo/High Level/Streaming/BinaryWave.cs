@@ -217,7 +217,7 @@ namespace CitraFileLoader {
             for (int i = 0; i < DspAdpcmInfo.Length; i++) {
 
                 //Info.
-                bw.Write((ushort)1);
+                bw.Write(Codic);  // Codic. 0 = PCM16, 1 = DSPADPCM
                 bw.Write((ushort)ChannelPans[i]);
                 bw.Write(SampleRate);
                 bw.Write(NumSamples);

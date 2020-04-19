@@ -99,6 +99,64 @@ namespace CitraFileLoader
 
         }
 
+        /// <summary>
+        /// Decode PCM16 as DSP-ADPCM data.
+        /// </summary>
+        /// <param name="src">DSP-ADPCM source.</param>
+        /// <param name="dst">Destination array of samples.</param>
+        /// <param name="cxt">DSP-APCM context.</param>
+        /// <param name="samples">Number of samples.</param>
+        public static void VirtualDecode(byte[] src, ref Int16[] dst, ref DspAdpcmInfo cxt, UInt32 samples)
+        {
+
+            //Each DSP-APCM frame is 8 bytes long. It contains 1 header byte, and 7 sample bytes.
+
+            //Set initial values.
+            short hist1 = cxt.yn1;
+            short hist2 = cxt.yn2;
+            int dstIndex = 0;
+            int srcIndex = 0;
+
+            //Until all samples decoded.
+            while (dstIndex < samples)
+            {
+
+                //Get the header.
+                byte header = src[srcIndex++];
+
+                //Get scale and co-efficient index.
+                UInt16 scale = (UInt16)(1 << (header & 0xF));
+                byte coef_index = (byte)(header >> 4);
+                short coef1 = cxt.coefs[coef_index][0];
+                short coef2 = cxt.coefs[coef_index][1];
+
+                //7 sample bytes per frame.
+                for (UInt32 b = 0; b < 7; b++)
+                {
+
+                    //Get byte.
+                    byte byt = src[srcIndex++];
+
+                    //2 samples per byte.
+                    for (UInt32 s = 0; s < 2; s++)
+                    {
+                        sbyte adpcm_nibble = ((s == 0) ? GetHighNibble(byt) : GetLowNibble(byt));
+                        short sample = Clamp16(((adpcm_nibble * scale) << 11) + 1024 + ((coef1 * hist1) + (coef2 * hist2)) >> 11);
+
+                        hist2 = hist1;
+                        hist1 = sample;
+                        dst[dstIndex++] = sample;
+
+                        if (dstIndex >= samples) break;
+                    }
+                    if (dstIndex >= samples) break;
+
+                }
+
+            }
+
+        }
+
     }
 
 }

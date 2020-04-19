@@ -94,9 +94,9 @@ public partial class MainWindow : Gtk.Window
                     }
                 }
                 //riffWave
-                file.stream.encoding = (byte)1;
-                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, file.ToBytes());
-                if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(file).ToBytes());
+                //file.stream.encoding = (byte)1;
+                if (OutputFormat == "BWAV") File.WriteAllBytes(outputfilepath, f.ToBytes());
+                if (OutputFormat == "WAV") File.WriteAllBytes(outputfilepath, RiffWaveFactory.CreateRiffWave(r).ToBytes());
                 break;
             default:
                 MsgBox("Unknown type - Only WAV and BWAV are supported.\nIf file isn't WAV or BWAV but like Ogg, convert before. (Oddly, some WAVs crash. Exporting with Audacity may work.)\nThis check depends on the file name (mainly the extension), not the actual file contents.\nIf it is WAV or BWAV, please change the file name.\nBut BWAV input support is too bad. In that case, try using VGMStream.", "Error", MessageType.Error, ButtonsType.Ok);
